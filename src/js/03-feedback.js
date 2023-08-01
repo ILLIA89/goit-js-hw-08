@@ -12,9 +12,9 @@ form.addEventListener('input', throttle(onInput, 500));
 form.addEventListener('submit', onSubmit);
 
 
-
+// додавання значення інпуту в локальне сховище
 function onInput(e) {
-    data[e.target.name] = data[e.target.value]
+    data[e.target.name] = e.target.value
 
     localStorage.setItem(LOCALSTORAGE_KEY,
         JSON.stringify({ email: data.email, message: data.message }));
