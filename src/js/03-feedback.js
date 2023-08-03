@@ -6,19 +6,19 @@ const emailInput = document.querySelector('input[name="email"]');
 const messageTextarea = document.querySelector('textarea[name="message"]');
 
 
-let data = {};
+form.addEventListener(
+  'input',
+  throttle(e => {
+    // Об'єкт з полями email і message, у яких зберігаються поточні значення полів форми
+    const objectToSave = { email: emailInput.value, message: messageTextarea.value };
+    // Записування у локальне сховище об'єкта з полями.
+    // JSON.stringify - конвертування JS-значень у формат строки JSON.
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(objectToSave));
+  }, 500)
+);
 
-form.addEventListener('input', throttle(onInput, 500));
-form.addEventListener('submit', onSubmit);
 
 
-// додавання значення інпуту в локальне сховище
-function onInput(e) {
-    data[e.target.name] = e.target.value
-
-    localStorage.setItem(LOCALSTORAGE_KEY,
-        JSON.stringify({ email: data.email, message: data.message }));
-}
 
 // Метод load який абстрагує повторюваний код перевірки помилок
 const load = key => {
@@ -35,7 +35,7 @@ const load = key => {
     }
 };
 
-
+form.addEventListener('submit', onSubmit);
 function onSubmit (e) {
     e.preventDefault();
     if (emailInput.value === '' || messageTextarea.value === '') {
@@ -48,7 +48,7 @@ function onSubmit (e) {
 
 
 function clearForm () {
-    data = {}
+
     localStorage.removeItem(LOCALSTORAGE_KEY);
     emailInput.value = '';
   messageTextarea.value = '';
